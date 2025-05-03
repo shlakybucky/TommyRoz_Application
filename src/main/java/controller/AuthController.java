@@ -23,6 +23,6 @@ public class AuthController {
                          @RequestParam String fullName,
                          @RequestParam String phone,
                          @RequestParam String email){
-        userService.re
+//        userService.re
     }
 }
