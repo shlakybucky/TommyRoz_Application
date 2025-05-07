@@ -17,18 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class UserController {
     @Autowired
     private UserRepo userRepository;
-    @Autowired
-    private UserService userService;
-
-    @PostMapping(path = "/add")
-    public @ResponseBody String addNewUser(@RequestParam String login,
-                                           @RequestParam String password,
-                                           @RequestParam String fullName,
-                                           @RequestParam String phone,
-                                           @RequestParam String email) {
-        userService.signUp(login, password, fullName, phone, email);
-        return "Saved";
-    }
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<User> getAllUsers() {

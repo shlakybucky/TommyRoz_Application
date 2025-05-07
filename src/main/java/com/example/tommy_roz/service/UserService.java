@@ -1,5 +1,6 @@
 package com.example.tommy_roz.service;
 
+import com.example.tommy_roz.dto.SignUpRequest;
 import com.example.tommy_roz.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,20 +24,34 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void signUp(String login, String password, String fullName, String phone, String email) {
-        if (userRepository.findByLogin(login).isPresent()) {
+    public void signUp(SignUpRequest signupRequest) {
+        if (userRepository.findByLogin(signupRequest.getLogin()).isPresent()) {
             throw new RuntimeException("User with this name already exists");
         }
         User user = new User();
-        user.setLogin(login);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setFullName(fullName);
-        user.setPhone(phone);
-        user.setEmail(email);
+        user.setLogin(signupRequest.getLogin());
+        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        user.setFullName(signupRequest.getFullName());
+        user.setPhone(signupRequest.getPhone());
+        user.setEmail(signupRequest.getEmail());
         user.setRole("ROLE_USER");
 
         userRepository.save(user);
     }
+//    public void signUp(String login, String password, String fullName, String phone, String email) {
+//        if (userRepository.findByLogin(login).isPresent()) {
+//            throw new RuntimeException("User with this name already exists");
+//        }
+//        User user = new User();
+//        user.setLogin(login);
+//        user.setPassword(passwordEncoder.encode(password));
+//        user.setFullName(fullName);
+//        user.setPhone(phone);
+//        user.setEmail(email);
+//        user.setRole("ROLE_USER");
+//
+//        userRepository.save(user);
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
