@@ -16,13 +16,4 @@ public class AuthController {
     public String registerForm(){
         return "signup"; //i must add html-form for registration?
     }
-
-//    @PostMapping("/signup")
-//    public String signUp(@RequestParam String username,
-//                         @RequestParam String password,
-//                         @RequestParam String fullName,
-//                         @RequestParam String phone,
-//                         @RequestParam String email){
-//        userService.re
-//    }
 }
