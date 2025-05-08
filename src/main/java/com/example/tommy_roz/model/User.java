@@ -2,27 +2,38 @@ package com.example.tommy_roz.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
 @Data
-public class User {
+public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullName;
     private Integer age;
+
+    @Size(min = 4, message = "At least 4 characters")
     private String login;
     private String phone;
     private String email;
+
+    @Size(min = 5, message = "At least 5 characters")
     private String password;
-    private String role; //simple user or premium user
+    @Transient
+    private String passwordConfirm;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+//    private String role; //simple user or premium user
 
     //constructors
     public User() {
