@@ -10,8 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Set;
+
 @Entity
-@Table(name = "users")
+@Table(name = "t_users")
 @AllArgsConstructor
 @Data
 public class User  implements UserDetails {
