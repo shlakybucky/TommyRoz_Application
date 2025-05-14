@@ -3,23 +3,24 @@ package com.example.tommy_roz.controller;
 import com.example.tommy_roz.repository.UserRepo;
 import com.example.tommy_roz.model.User;
 
-import com.example.tommy_roz.service.UserService;
+import com.example.tommy_roz.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping(path = "/user")
+import java.util.List;
+
+@RestController
+@RequestMapping(path = "/users")
 public class UserController {
-    @Autowired
-    private UserRepo userRepository;
+
+    private final UserServiceImpl userServiceImpl;
+
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+    }
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<User> getAllUsers() {
-        return userRepository.findAll();
+    public @ResponseBody List<User> getAllUsers() {
+        return userServiceImpl.getAllUsers();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.tommy_roz.config;
-
-public class WebSecurityConfig {
-}
+//package com.example.tommy_roz.config;
+//
+//public class WebSecurityConfig {
+//}

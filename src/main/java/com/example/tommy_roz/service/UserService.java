@@ -1,113 +1,17 @@
 package com.example.tommy_roz.service;
 
-//import com.example.tommy_roz.dto.SignUpRequest;
 import com.example.tommy_roz.model.User;
-import com.example.tommy_roz.repository.RoleRepo;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import com.example.tommy_roz.repository.UserRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class UserService implements UserDetailsService {
+public interface UserService {
 
-    @Autowired
-    private UserRepo userRepository;
-    @Autowired
-    private RoleRepo roleRepository;
-    @PersistenceContext
-    private EntityManager em;
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    public List<User> getAllUsers();
 
-    @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException{
-        User user =  userRepository.findByUsername(login);
+    public Optional<User> getUserById(Long id);
 
-        if(user == null){
-            throw new UsernameNotFoundException("User not found");
-        }
-        return user;
-    }
+    public User createUser(User user);
 
-    public User findUserById(Long userId){
-        Optional<User> userFromBd = userRepository.findById(userId);
-        return userFromBd.orElse(new User());
-    }
-
-    public List<User> allUsers(){
-        return userRepository.findAll();
-    }
-
-    public boolean saveUser(User user){
-        User userFromDb = userRepository.findByUsername(user.getLogin());
-        if(userFromDb != null){
-            return false;
-        }
-        user.setRoles("ROLE_USER");
-    }
-
+    public void deleteUser(Long id);
 }
-
-
-
-
-
-
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
-//    public void signUp(SignUpRequest signupRequest) {
-//        if (userRepository.findByLogin(signupRequest.getLogin()).isPresent()) {
-//            throw new RuntimeException("User with this name already exists");
-//        }
-//        User user = new User();
-//        user.setLogin(signupRequest.getLogin());
-//        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
-//        user.setFullName(signupRequest.getFullName());
-//        user.setPhone(signupRequest.getPhone());
-//        user.setEmail(signupRequest.getEmail());
-//        user.setRole("ROLE_USER");
-//
-//        userRepository.save(user);
-    }
-//    public void signUp(String login, String password, String fullName, String phone, String email) {
-//        if (userRepository.findByLogin(login).isPresent()) {
-//            throw new RuntimeException("User with this name already exists");
-//        }
-//        User user = new User();
-//        user.setLogin(login);
-//        user.setPassword(passwordEncoder.encode(password));
-//        user.setFullName(fullName);
-//        user.setPhone(phone);
-//        user.setEmail(email);
-//        user.setRole("ROLE_USER");
-//
-//        userRepository.save(user);
-//    }
-
-//    @Override
-//    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-//        Optional<User> userOptional = userRepository.findByLogin(login);
-//        User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//
-//        List<SimpleGrantedAuthority> authority = new ArrayList<>(); //why do i need collection here?
-//        authority.add(new SimpleGrantedAuthority(user.getRole()));
-//
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getLogin(),
-//                user.getPassword(),
-//                authority
-//        );
-//    }
