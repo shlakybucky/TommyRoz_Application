@@ -7,5 +7,6 @@
 
     <!-- Включение миграций -->
     <include file="db/changelog/changeset-001-create-users-table.xml"/>
+    <include file="db/changelog/changeset-002-add-admin1-users-table.xml"/>
 
 </databaseChangeLog>

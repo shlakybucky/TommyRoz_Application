@@ -4,7 +4,13 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-        <changeSet id="1" author="shluckybacky">
+        <changeSet id="001-create-users-table" author="shluckybacky">
+            <preConditions onFail="MARK_RAN">
+                <not>
+                    <tableExists tableName="users"/>
+                </not>
+            </preConditions>
+
             <createTable tableName="users">
                     <column name="id" type="BIGINT" autoIncrement="true">
                         <constraints primaryKey="true" nullable="false"/>
@@ -30,9 +36,9 @@
                         <constraints nullable="false" unique="true"/>
                     </column>
 
-                    <column name="role" type="VARCHAR(20)">
-                        <constraints nullable="false"/>
-                    </column>
+<!--                    <column name="role" type="VARCHAR(20)">-->
+<!--                        <constraints nullable="false"/>-->
+<!--                    </column>-->
 
             </createTable>
         </changeSet>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="002-add-admin1-users-table" author="shluckybacky">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+                <sqlCheck expectedResult="0">
+                    SELECT COUNT(*) FROM users WHERE username = 'admin1'
+                </sqlCheck>
+        </preConditions>
+
+        <insert tableName="users">
+            <column name="username" value="admin1"/>
+            <column name="password" value="hashed_password"/>
+            <column name="full_name" value="Admin Number One"/>
+            <column name="phone" value="1234567890"/>
+            <column name="email" value="admin_email@admin.ru"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

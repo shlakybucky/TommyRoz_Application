@@ -1,44 +1,60 @@
 package com.example.tommy_roz.controller;
 
+import com.example.tommy_roz.dto.UserDto;
+import com.example.tommy_roz.mapper.UserMapper;
 import com.example.tommy_roz.model.User;
 import com.example.tommy_roz.service.impl.UserServiceImpl;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(path = "/users")
 public class UserController {
 
+
+@Autowired
+    public UserController(UserServiceImpl userServiceImpl, UserMapper userMapper) {
+        this.userServiceImpl = userServiceImpl;
+        this.userMapper = userMapper;
+    }
+
     private final UserServiceImpl userServiceImpl;
+    private final UserMapper userMapper;
 
 
-    @GetMapping(path = "/")
-    public @ResponseBody List<User> getAllUsers() {
-        return userServiceImpl.getAllUsers();
+
+
+    @GetMapping
+    public @ResponseBody List<UserDto> getAllUsers() {
+        List<User> users = userServiceImpl.getAllUsers();
+        return userMapper.toDto(users);
     }
 
 
     //tut ect' voprosiki naschyot Optional
-    @GetMapping(path = "/{user_id}")
-    public Optional<User> getUserById(@PathVariable Long id){
-        return userServiceImpl.getUserById(id);
-    }
+//    @GetMapping(path = "/{user_id}")
+//    public UserDto getUserById(@PathVariable Long id){
+//        User user = userServiceImpl.getUserById(id);
+//        return userMapper.toDto(user);
+//    }
 
     @PostMapping
-    public User createUser(@RequestBody User user){
-        return userServiceImpl.createUser(user);
+    public UserDto createUser(@RequestBody UserDto userDto){
+        User user = userMapper.fromDto(userDto);
+        user = userServiceImpl.saveUser(user);
+        return userMapper.toDto(user);
     }
 
-//    @PutMapping("/{user_id}")
-//    public User updateUser(@PathVariable Long id, @RequestBody User user){
-//        user.setId(id);
-//        return userServiceImpl.saveUser(user);
-//    }
+    @PutMapping("/{user_id}")
+    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+        User user = userMapper.fromDto(userDto);
+        user = userServiceImpl.saveUser(user);
+        return userMapper.toDto(user);
+    }
 
     @DeleteMapping("/{user_id}")
     public void deleteUser(@PathVariable Long id){
